@@ -9,53 +9,53 @@ CREATE TABLE TB_FUNCIONARIO
 	PENDENCIA VARCHAR(40)
 )
 
-select * from TB_FUNCIONARIO
+SELECT * FROM TB_FUNCIONARIO
 
 --2
 CREATE PROCEDURE SP_ATUALIZA_PENDENCIA
 AS
 BEGIN
-    DECLARE @matricula INT,
-            @nome VARCHAR(40),
-            @telefone VARCHAR(20),
-            @endereco VARCHAR(40),
-            @salario DECIMAL(10,2),
-            @pendencia VARCHAR(40)
+    DECLARE @MATRICULA INT,
+            @NOME VARCHAR(40),
+            @TELEFONE VARCHAR(20),
+            @ENDERECO VARCHAR(40),
+            @SALARIO DECIMAL(10,2),
+            @PENDENCIA VARCHAR(40)
 
-    -- Declara o cursor
-    DECLARE cursor_funcionario CURSOR FOR
+    -- DECLARA O CURSOR
+    DECLARE CURSOR_FUNCIONARIO CURSOR FOR
     SELECT MATRICULA, NOME, TELEFONE, ENDERECO, SALARIO
     FROM TB_FUNCIONARIO
 
-    -- Abre o cursor
-    OPEN cursor_funcionario
+    -- ABRE O CURSOR
+    OPEN CURSOR_FUNCIONARIO
 
-    -- Lê a primeira linha do cursor
-    FETCH NEXT FROM cursor_funcionario INTO @matricula, @nome, @telefone, @endereco, @salario
+    -- LÊ A PRIMEIRA LINHA DO CURSOR
+    FETCH NEXT FROM CURSOR_FUNCIONARIO INTO @MATRICULA, @NOME, @TELEFONE, @ENDERECO, @SALARIO
 
-    -- Loop através das linhas do cursor
+    -- LOOP ATRAVÉS DAS LINHAS DO CURSOR
     WHILE @@FETCH_STATUS = 0
     BEGIN
-        -- Verifica se todos os campos têm valores
-        IF @nome IS NOT NULL AND @telefone IS NOT NULL AND @endereco IS NOT NULL AND @salario IS NOT NULL
+        -- VERIFICA SE TODOS OS CAMPOS TÊM VALORES
+        IF @NOME IS NOT NULL AND @TELEFONE IS NOT NULL AND @ENDERECO IS NOT NULL AND @SALARIO IS NOT NULL
         BEGIN
-            SET @pendencia = 'SEM PENDÊNCIA'
+            SET @PENDENCIA = 'SEM PENDÊNCIA'
         END
         ELSE
         BEGIN
-            SET @pendencia = 'EXISTE PENDÊNCIA'
+            SET @PENDENCIA = 'EXISTE PENDÊNCIA'
         END
 
-        -- Atualiza a tabela TB_FUNCIONARIO com o valor de PENDENCIA
+        -- ATUALIZA A TABELA TB_FUNCIONARIO COM O VALOR DE PENDENCIA
         UPDATE TB_FUNCIONARIO
-        SET PENDENCIA = @pendencia
-        WHERE MATRICULA = @matricula
+        SET PENDENCIA = @PENDENCIA
+        WHERE MATRICULA = @MATRICULA
 
-        -- Lê a próxima linha do cursor
-        FETCH NEXT FROM cursor_funcionario INTO @matricula, @nome, @telefone, @endereco, @salario
+        -- LÊ A PRÓXIMA LINHA DO CURSOR
+        FETCH NEXT FROM CURSOR_FUNCIONARIO INTO @MATRICULA, @NOME, @TELEFONE, @ENDERECO, @SALARIO
     END
 
-    -- Fecha e desaloca o cursor
-    CLOSE cursor_funcionario
-    DEALLOCATE cursor_funcionario
+    -- FECHA E DESALOCA O CURSOR
+    CLOSE CURSOR_FUNCIONARIO
+    DEALLOCATE CURSOR_FUNCIONARIO
 END
